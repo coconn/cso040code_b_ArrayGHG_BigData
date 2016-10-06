@@ -34,9 +34,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
-sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/9-13-16/"
+sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/"
 calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
-outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/9-13-16/Surface results/"
+outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/Surface results/"
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -382,23 +382,23 @@ write.csv(fulldaily, file=paste(outputdatapath, "fulldaily.csv", sep = ""), row.
 # # SUMMARY STATS: O2, MOISTURE ACROSS TRANSECTS AT EACH DATE
 # 
 # # summarySE using plyr
-# source("~/Documents/GITHUB/RPersonalFunctionsChristine/summarySE.r")
-# 
+source("C:/Users/jstar_000/Desktop/Data analysis/summarySE.r")
+# "DayCount", "Drought"
 # # summarySE O2
-# summarytab1tmp <- summarySE(data=fulldaily, measurevar="O2", c("Date2", "DayCount", "TopoLocation", "Drought"), na.rm=TRUE, renameallcols=TRUE)
+#summarytab1tmp <- summarySE(data=fulldaily, measurevar="O2", groupvars=c("Date2", "TopoLocation"), na.rm=TRUE, renameallcols=TRUE) # this function is just producing warnings
 # # summarySE moisture
-# summarytab2tmp <- summarySE(data=fulldaily, measurevar="avgVWC", c("Date2", "TopoLocation"), na.rm=TRUE, renameallcols=TRUE)
+#summarytab2tmp <- summarySE(data=fulldaily, measurevar="avgVWC", c("Date2", "TopoLocation"), na.rm=TRUE, renameallcols=TRUE)
 # 
 # 
 # ########################################################################
 # # EXPLORATORY FIGURES: TIME SERIES
 # 
-# topocolors <- c("navy","blue","dark green","green","yellow","orange","red")
-# topobreaks <- c("1","2","3","4","5","6","7")
-# topolabs <- c("Ridge","2","3","4","5","6","Valley")
+#topocolors <- c("navy","blue","dark green","green","yellow","orange","red")
+#topobreaks <- c("1","2","3","4","5","6","7")
+#topolabs <- c("Ridge","2","3","4","5","6","Valley")
 # 
 # # O2 by date (mean and se)
-# p1 <- ggplot(summarytab1, aes(x=Date, y=meanO2, color=TopoLocation)) + geom_point() + geom_errorbar(aes(ymin=meanO2-seO2, ymax=meanO2+seO2), alpha=0.5) + ylab("Soil O2 (Mean Fraction +/- Standard Error)") + theme_bw() + theme(axis.text.x=element_text(angle=90)) + scale_x_datetime(breaks = date_breaks("4 weeks"), labels = date_format("%d-%m-%y"))  #+ geom_line()
+ #p1 <- ggplot(summarytab1, aes(x=Date, y=meanO2, color=TopoLocation)) + geom_point() + geom_errorbar(aes(ymin=meanO2-seO2, ymax=meanO2+seO2), alpha=0.5) + ylab("Soil O2 (Mean Fraction +/- Standard Error)") + theme_bw() + theme(axis.text.x=element_text(angle=90)) + scale_x_datetime(breaks = date_breaks("4 weeks"), labels = date_format("%d-%m-%y"))  + geom_line()
 # 
 # # moisture by date (mean and se)
-# p2 <- ggplot(summarytab2, aes(x=Date2, y=meanavgVWC, color=TopoLocation)) + geom_point() + geom_errorbar(aes(ymin=meanavgVWC-seavgVWC, ymax=meanavgVWC+seavgVWC), alpha=0.5) + ylab("Soil Moisture (Mean Fraction +/- Standard Error)") + theme_bw() + theme(axis.text.x=element_text(angle=90)) + scale_x_datetime(breaks = date_breaks("4 weeks"), labels = date_format("%d-%m-%y")) #+ geom_line()
+#p2 <- ggplot(summarytab2, aes(x=Date2, y=meanavgVWC, color=TopoLocation)) + geom_point() + geom_errorbar(aes(ymin=meanavgVWC-seavgVWC, ymax=meanavgVWC+seavgVWC), alpha=0.5) + ylab("Soil Moisture (Mean Fraction +/- Standard Error)") + theme_bw() + theme(axis.text.x=element_text(angle=90)) + scale_x_datetime(breaks = date_breaks("4 weeks"), labels = date_format("%d-%m-%y")) #+ geom_line()

@@ -15,9 +15,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
-sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/9-13-16/"
+sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/"
 calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
-outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/9-13-16/Depth Results/"
+outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/Depth Results/"
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -130,9 +130,9 @@ O2rows <- c(4:dataend)
 
 # what are the variable names?
 O2names <- c("TIMESTAMP",
-             "Sensor36","Sensor37","Sensor38","Sensor39","Sensor40","Sensor41",
-             "Sensor42","Sensor43","Sensor44","Sensor45","Sensor46","Sensor47",
-             "Sensor48","Sensor49","Sensor50") ## calling these 36-50 still since the numbers don't match up with the temp/moisture numbers-need to rename
+             "Sensor01","Sensor02","Sensor03","Sensor04","Sensor05","Sensor06",
+             "Sensor07","Sensor08","Sensor09","Sensor10","Sensor11","Sensor12",
+             "Sensor13","Sensor14","Sensor15","Sensor16","Sensor17","Sensor18") ## Numbers DO NOT match up with the temp/moisture numbers-need to rename
 #O2names <- as.character(CR1000_oxygenEV[1,O2cols])
 
 # extract the data and give it useful col names
@@ -155,14 +155,14 @@ O2hourly$Date2 <- mdy(O2hourly$Date) # as date
 
 ## convert to long format
 
-O2hourlylong <- gather(O2hourly, SensorID, O2mV, Sensor36:Sensor50)
+O2hourlylong <- gather(O2hourly, SensorID, O2mV, Sensor01:Sensor18)
 O2hourlylong$SensorID <- as.character(O2hourlylong$SensorID)
 O2hourlylong$O2mV <- as.numeric(O2hourlylong$O2mV)
 
 ## convert from mV to percent using the calibration curves for each sensor
 
 # bring in calibration curve info
-O2cal <- read.csv(paste(calibrationdatapath,"O2sensorscalibration.csv",sep=""), stringsAsFactors=FALSE) # sensors 36-50 use average of all calibration data for now
+O2cal <- read.csv(paste(calibrationdatapath,"O2sensorscalibrationdepth.csv",sep=""), stringsAsFactors=FALSE) #using average of all calibration data
 # join to O2hourlylong
 O2hourlylong <- full_join(O2hourlylong, O2cal)
 # solve for percent O2
