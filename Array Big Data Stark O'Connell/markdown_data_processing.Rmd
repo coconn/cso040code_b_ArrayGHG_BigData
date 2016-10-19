@@ -11,9 +11,9 @@ knitr::opts_chunk$set(warnings=FALSE,message=FALSE)
 Where are the inputs and outputs?
 ``` {r datapaths}
 
-sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-12-16/"
+sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-19-16/"
 calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
-outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-12-16/Surface results/"
+outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-19-16/Surface results/"
 ```
 
 
