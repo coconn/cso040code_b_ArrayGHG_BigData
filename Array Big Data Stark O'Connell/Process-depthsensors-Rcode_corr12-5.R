@@ -295,20 +295,26 @@ fulldaily$Date2 <- as.character(fulldaily$Date2)
 write.csv(fulldaily, file=paste(outputdatapath, "fulldaily.csv", sep = ""), row.names=FALSE)
 
 # make basic graphs
-ggplot(fulldaily,aes(x=as.Date(Date2),y=avgO2pct,shape=TopoLocation,color=factor(Depth))) + 
+
+figuredata <- fulldaily[!is.na(fulldaily$TopoLocation),]
+
+ggplot(figuredata,aes(x=as.Date(Date2),y=avgO2pct,color=factor(Depth))) + 
   geom_point() +
   scale_x_date(limits=as.Date(c("2016-08-01","2017-01-01"))) +
   scale_y_continuous(limits=c(-5,50)) +
-  labs(x="Date",y="O2 concentration")
+  labs(x="Date",y="O2 concentration") +
+  facet_grid(TopoLocation~.)
 
 
-ggplot(fulldaily,aes(x=as.Date(Date2),y=avgTemp,shape=TopoLocation,color=factor(Depth))) + 
+ggplot(figuredata,aes(x=as.Date(Date2),y=avgTemp,color=factor(Depth))) +
   geom_point() +
   scale_x_date(limits=as.Date(c("2016-08-01","2017-01-01"))) +
-  labs(x="Date",y="Soil Temp")
+  labs(x="Date",y="Soil Temp") +
+  facet_grid(TopoLocation~.)
 
 
-ggplot(fulldaily,aes(x=as.Date(Date2),y=avgVWC,shape=TopoLocation,color=factor(Depth))) + 
+ggplot(figuredata,aes(x=as.Date(Date2),y=avgVWC,color=factor(Depth))) + 
   geom_point() +
   scale_x_date(limits=as.Date(c("2016-08-01","2017-01-01"))) +
-  labs(x="Date",y="Volumetric Water Content")
+  labs(x="Date",y="Volumetric Water Content") +
+  facet_grid(TopoLocation~.)
