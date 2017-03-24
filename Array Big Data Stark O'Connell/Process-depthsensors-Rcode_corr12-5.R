@@ -16,9 +16,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
-sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/12-6-16/"
+sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/3-1-17/"
 calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
-outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/12-6-16/Depth Results/"
+outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/3-1-17/Depth results/"
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -145,8 +145,7 @@ O2rows <- c(4:dataend)
 O2names <- c("TIMESTAMP",
              "Ox01","Ox02","Ox03","Ox04","Ox05","Ox06",
              "Ox07","Ox08","Ox09","Ox10","Ox11","Ox12",
-             "Ox13","Ox14","Ox15") ## Numbers DO NOT match up with the temp/moisture numbers-need to rename
-#O2names <- as.character(CR1000_oxygenEV[1,O2cols])
+             "Ox13","Ox14","Ox15") 
 
 # extract the data and give it useful col names
 O2hourly <- CR1000_oxygenEV[O2rows, O2cols]
@@ -239,13 +238,13 @@ head(O2hourly)
 # go from long to wide using spread() from tidyr
 # only do this for the average daily values, not the sd, se, min or max
 
-vwcdailylongavg <- vwcdailylong[,c(1:6)]
+vwcdailylongavg <- vwcdailylong[,c(1,3,6)]
 vwcdailywideavg <- spread(vwcdailylongavg, RealID, avgVWC)
 
-tempdailylongavg <- tempdailylong[,c(1:6)]
+tempdailylongavg <- tempdailylong[,c(1,3,6)]
 tempdailywideavg <- spread(tempdailylongavg, RealID, avgTemp)
 
-O2dailylongavg <- O2dailylong[,c(1:6)]
+O2dailylongavg <- O2dailylong[,c(1,3,6)]
 O2dailywideavg <- spread(O2dailylongavg, RealID, avgO2pct)
 
 head(tempdailywideavg)
@@ -300,21 +299,21 @@ figuredata <- fulldaily[!is.na(fulldaily$TopoLocation),]
 
 ggplot(figuredata,aes(x=as.Date(Date2),y=avgO2pct,color=factor(Depth))) + 
   geom_point() +
-  scale_x_date(limits=as.Date(c("2016-08-01","2017-01-01"))) +
-  scale_y_continuous(limits=c(-5,50)) +
+  scale_x_date(limits=as.Date(c("2017-01-01","2017-04-01"))) +
   labs(x="Date",y="O2 concentration") +
   facet_grid(TopoLocation~.)
-
+ggsave("DepthO2.jpg",path=outputdatapath)
 
 ggplot(figuredata,aes(x=as.Date(Date2),y=avgTemp,color=factor(Depth))) +
   geom_point() +
-  scale_x_date(limits=as.Date(c("2016-08-01","2017-01-01"))) +
+  scale_x_date(limits=as.Date(c("2017-01-01","2017-04-01"))) +
   labs(x="Date",y="Soil Temp") +
   facet_grid(TopoLocation~.)
-
+ggsave("DepthTemp.jpg",path=outputdatapath)
 
 ggplot(figuredata,aes(x=as.Date(Date2),y=avgVWC,color=factor(Depth))) + 
   geom_point() +
-  scale_x_date(limits=as.Date(c("2016-08-01","2017-01-01"))) +
+  scale_x_date(limits=as.Date(c("2017-01-01","2017-04-01"))) +
   labs(x="Date",y="Volumetric Water Content") +
   facet_grid(TopoLocation~.)
+ggsave("DepthVWC.jpg",path=outputdatapath)

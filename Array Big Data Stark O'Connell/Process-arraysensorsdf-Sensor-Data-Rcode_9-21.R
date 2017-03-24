@@ -34,9 +34,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
-sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/12-6-16/"
+sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/3-1-17/"
 calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
-outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/12-6-16/Surface results/"
+outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/3-1-17/Surface results/"
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -132,9 +132,9 @@ vwchourlylong$VWC <- as.numeric(vwchourlylong$VWC)
 ## get daily mean, sd, max, min
 vwcdailylong <- ddply(vwchourlylong,.(Date2, SensorID),
              summarize,
-             avgVWC=mean(VWC, na.rm = TRUE),
+             avgVWC=mean(VWC, strna.rm = TRUE),
              sdVWC=sd(VWC, na.rm = TRUE),
-             seVWC=ste(VWC),
+             seVWC=sqrt(var(VWC,na.rm=TRUE)/length(na.omit(VWC))),
              maxVWC=max(VWC, na.rm = TRUE),
              minVWC=min(VWC, na.rm = TRUE),
              .progress="text") # na.rm=T already in the function definition for ste()
@@ -379,15 +379,16 @@ write.csv(fulldaily, file=paste(outputdatapath, "fulldaily.csv", sep = ""), row.
 
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgO2pct,color=TopoLocation)) + 
   geom_point() +
-  scale_x_date(limits=as.Date(c("2016-04-01","2016-12-01"))) +
+  scale_x_date(limits=as.Date(c("2017-01-01","2017-04-01"))) +
   labs(x="Date",y="O2 concentration")
-
+ggsave("SurfaceO2.jpg",path=outputdatapath)
 
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgTemp,color=TopoLocation)) + 
   geom_point() +
   labs(x="Date",y="Soil Temp")
-
+ggsave("SurfaceTemp.jpg",path=outputdatapath)
 
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgVWC,color=TopoLocation)) + 
   geom_point() +
   labs(x="Date",y="Volumetric Water Content")
+ggsave("SurfaceVWC.jpg",path=outputdatapath)
