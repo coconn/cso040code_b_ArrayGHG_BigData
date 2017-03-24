@@ -16,9 +16,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
-sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/3-1-17/"
-calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
-outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/3-1-17/Depth results/"
+sensordatapath = "~/Desktop/Datalogger_downloads/3-14-17/"
+calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
+outputdatapath = "~/Desktop/Datalogger_downloads/3-14-17/Depth results/"
 
 ########################################################################
 # BRING IN NEW DATA SHEETS

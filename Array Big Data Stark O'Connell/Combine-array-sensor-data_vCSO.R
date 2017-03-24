@@ -22,13 +22,13 @@ library(dplyr)
 
 
 # locate datasets
-DataArchivepath <- "C:/Users/jstar_000/Desktop/PC400 data/DataArchive/" 
+DataArchivepath <- "~/Desktop/Datalogger_downloads/DataArchive/" 
 # old data; this should never change unless changing computers
 
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "C:/Users/jstar_000/Desktop/PC400 data/3-1-17/Surface results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/3-14-17/Surface results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
