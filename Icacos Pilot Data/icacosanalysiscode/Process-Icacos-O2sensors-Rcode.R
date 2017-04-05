@@ -23,7 +23,7 @@ calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/Icacos/"
 outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/Icacos/Results/"
 
 # bring in data
-CR1000_oxygenEV <- read.csv(paste(sensordatapath,"CR1000_Icacos_Oxygen.csv",
+CR1000_oxygenEV <- read.csv(paste(sensordatapath,"CR1000_Oxygen.csv",
                                   sep=""), stringsAsFactors=FALSE)
 
 # O2: HOURLY --> DAILY
@@ -105,6 +105,6 @@ write.csv(O2dailywideavg, file=paste(outputdatapath, "IcacosO2dailywideavg.csv",
 
 
 # diagnostic graph
-ggplot(O2hourlylong,aes(x=TIMESTAMP2,y=O2pct,color=SensorID)) + 
+ggplot(O2hourlylong[],aes(x=TIMESTAMP2,y=O2pct,color=SensorID)) + 
   geom_point() +
   labs(x="Time",y="O2 concentration") 

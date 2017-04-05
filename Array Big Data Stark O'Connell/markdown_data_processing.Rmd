@@ -1,20 +1,25 @@
-# Process-arraysensorsdf-Sensor-Data-Rcode.R
-# 
-# processing raw data files from the PR array sensors
-#
-# code heavily indebted to: pitTDR_CR1000_PL_02042014.R
-# AUTHORS: Paulo Brando, Paul Lefebvre, Marcia Macedo
-#
-# O2 - redox - GHG project
-# CS O'Connell, UCB, Silver Lab
+---
+title: "Processing array sensors in markdown"
+date: "September 21, 2016"
+output: html_document
+---
 
-# output products:
-# 
+``` {r include=FALSE}
+knitr::opts_chunk$set(warnings=FALSE,message=FALSE)
+```
+
+Where are the inputs and outputs?
+``` {r datapaths}
+
+sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-19-16/"
+calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
+outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-19-16/Surface results/"
+```
 
 
-########################################################################
-# GET READY TO BRING IN DATA
-
+This code loads packages and data for processing array oxygen and moisture
+``` {r prep, echo=FALSE}
+# load packages
 library(ggplot2)
 library(gridExtra)
 library(scales)
@@ -26,31 +31,10 @@ library(chron)
 library(lubridate)
 library(lattice)
 library(reshape2)
-<<<<<<< HEAD
-options(java.parameters = "-Xmx5000m")
-library(xlsx)
-=======
->>>>>>> origin/master
+
 
 # define standard error function
 ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
-
-# where to save outputs
-
-<<<<<<< HEAD
-sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/"
-calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
-outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/Surface results/"
-# for christine
-sensordatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
-calibrationdatapath = "~/Documents/GITHUB/cso040code_ArrayGHG/ArrayGHG-Data-Raw/Sensor-data-Ryan-practice/"
-outputdatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
-
-=======
-sensordatapath = "~/Desktop/Datalogger_downloads/3-14-17/"
-calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
-outputdatapath = "~/Desktop/Datalogger_downloads/3-14-17/Surface results/"
->>>>>>> origin/master
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -63,27 +47,12 @@ CR1000_EIsoilT2 <- read.csv(paste(sensordatapath,"CR1000_EIsoilT2June2015.csv",
 CR1000_oxygenEV <- read.csv(paste(sensordatapath,"CR1000_oxygenEVJune2015.csv",
                                   sep=""), stringsAsFactors=FALSE)
 
-
-########################################################################
-# INFO ABOUT THE DATA
-
-## temperature and moisture info is in the same files:
-# T1 .csv files is through sensor 19 and T2 is the sensors from 20-35
-# vol water content columns are labeled as: VWC_Avg, VWC_2_Avg, VWC_3_Avg, etc. in row 2
-# VWC is in units of m^3/m^3
-# temperature columns are labeled as: T_Avg, T_2_Avg, T_3_Avg, etc. also in row 2
-# VWC is in units of Deg C
-# we want the columns that say "Avg" in row 4, not those that say "Smp" in row 4
-
-## oxygen info is in its own file:
-# in excel, the relevant columns for O2 data are
-# AI-AX = sensor 1-16, FG-FV = sensor 17-32, JE-JG = sensor 33-35
-# see the calibration curve stuff in the hourly tab in the excel file
+```
 
 
-########################################################################
-# VWC: HOURLY --> DAILY
+Process O2, temp and moisture
 
+``` {r data processing, echo=FALSE, cache=TRUE}
 ## get T1 data
 
 # where is the Volumentric Water Content (VWC) data?
@@ -146,20 +115,11 @@ vwchourlylong$VWC <- as.numeric(vwchourlylong$VWC)
 ## get daily mean, sd, max, min
 vwcdailylong <- ddply(vwchourlylong,.(Date2, SensorID),
              summarize,
-<<<<<<< HEAD
              avgVWC=mean(VWC, na.rm = TRUE),
              sdVWC=sd(VWC, na.rm = TRUE),
              seVWC=ste(VWC),
              maxVWC=max(VWC, na.rm = TRUE),
              minVWC=min(VWC, na.rm = TRUE)) # na.rm=T already in the function definition for ste()
-=======
-             avgVWC=mean(VWC, strna.rm = TRUE),
-             sdVWC=sd(VWC, na.rm = TRUE),
-             seVWC=sqrt(var(VWC,na.rm=TRUE)/length(na.omit(VWC))),
-             maxVWC=max(VWC, na.rm = TRUE),
-             minVWC=min(VWC, na.rm = TRUE),
-             .progress="text") # na.rm=T already in the function definition for ste()
->>>>>>> origin/master
 
 
 ########################################################################
@@ -231,12 +191,7 @@ tempdailylong <- ddply(temphourlylong,.(Date2, SensorID),
                       sdTemp=sd(Temp, na.rm = TRUE),
                       seTemp=ste(Temp),
                       smaxTemp=max(Temp, na.rm = TRUE),
-<<<<<<< HEAD
                       minTemp=min(Temp, na.rm = TRUE)) # na.rm=T already in the function definition for ste()
-=======
-                      minTemp=min(Temp, na.rm = TRUE),
-                      .progress="text") # na.rm=T already in the function definition for ste()
->>>>>>> origin/master
 
 
 ########################################################################
@@ -299,19 +254,13 @@ O2dailylong <- ddply(O2hourlylong,.(Date2, SensorID),
                        sdO2pct=sd(O2pct, na.rm = TRUE),
                        seO2pct=ste(O2pct),
                        smaxO2pct=max(O2pct, na.rm = TRUE),
-<<<<<<< HEAD
                        minO2pct=min(O2pct, na.rm = TRUE)) # na.rm=T already in the function definition for ste()
-=======
-                       minO2pct=min(O2pct, na.rm = TRUE),
-                       .progress="text") # na.rm=T already in the function definition for ste()
->>>>>>> origin/master
 
+```
 
-##### Q for Ryan... why are the daily averages off between the hourly tab and the daily summary tab?
-
-
-
-########################################################################
+Join data frames and add information on where each sensor is
+This draws on data files: definetransects.csv , definetopolocation.csv
+``` {r finalize data structure, echo=FALSE}
 # VWC + TEMP + O2 --> ONE DF
 
 # add O2 dataframe into this once you've defined it
@@ -336,18 +285,10 @@ secondlast <- endcol-1
 fulldaily <- fulldaily4[,c(1:2,endcol,3:secondlast)]
 fulldaily$TopoLocation <- as.factor(fulldaily$TopoLocation)
 
+```
 
-########################################################################
-# DEFINE WHAT GETS ADDED TO THE RUNNING SPREADSHEET
-
-# hourly wide for each
-head(vwchourly)
-head(temphourly)
-head(O2hourly)
-
-# daily wide for each
-# go from long to wide using spread() from tidyr
-# only do this for the average daily values, not the sd, se, min or max
+### Prep and save data files
+``` {r prep files, echo=FALSE}
 
 vwcdailylongavg <- vwcdailylong[,c(1:3)]
 vwcdailywideavg <- spread(vwcdailylongavg, SensorID, avgVWC)
@@ -358,19 +299,6 @@ tempdailywideavg <- spread(tempdailylongavg, SensorID, avgTemp)
 O2dailylongavg <- O2dailylong[,c(1:3)]
 O2dailywideavg <- spread(O2dailylongavg, SensorID, avgO2pct)
 
-head(tempdailywideavg)
-head(vwcdailywideavg)
-head(O2dailywideavg)
-
-# daily long combined dataset
-head(fulldaily)
-
-
-########################################################################
-# SAVE AS CSVS
-
-# hourly wide for each
-
 # make ok to write to CSV
 vwchourly$TIMESTAMP2 <- as.character(vwchourly$TIMESTAMP2)
 vwchourly$Date2 <- as.character(vwchourly$Date2)
@@ -379,77 +307,47 @@ temphourly$Date2 <- as.character(temphourly$Date2)
 O2hourlylong$TIMESTAMP2 <- as.character(O2hourlylong$TIMESTAMP2)
 O2hourlylong$Date2 <- as.character(O2hourlylong$Date2)
 
-# write to csv
-write.csv(vwchourly, file=paste(outputdatapath, "vwchourly.csv", sep = ""), row.names=FALSE)
-write.csv(temphourly, file=paste(outputdatapath, "temphourly.csv", sep = ""), row.names=FALSE)
-write.csv(O2hourlylong, file=paste(outputdatapath, "O2hourly.csv", sep = ""), row.names=FALSE)
-
-# daily wide for each
-
-# make ok to write to CSV
 vwcdailywideavg$Date2 <- as.character(vwcdailywideavg$Date2)
 tempdailywideavg$Date2 <- as.character(tempdailywideavg$Date2)
 O2dailywideavg$Date2 <- as.character(O2dailywideavg$Date2)
 
-# write to csv
+fulldaily$Date2 <- as.character(fulldaily$Date2)
+
+```
+
+Saving hourly data
+``` {r save files}
+write.csv(vwchourly, file=paste(outputdatapath, "vwchourly.csv", sep = ""), row.names=FALSE)
+write.csv(temphourly, file=paste(outputdatapath, "temphourly.csv", sep = ""), row.names=FALSE)
+write.csv(O2hourlylong, file=paste(outputdatapath, "O2hourly.csv", sep = ""), row.names=FALSE)
+```
+
+Saving daily data
+```{r}
 write.csv(vwcdailywideavg, file=paste(outputdatapath, "vwcdailywideavg.csv", sep = ""), row.names=FALSE)
 write.csv(tempdailywideavg, file=paste(outputdatapath, "tempdailywideavg.csv", sep = ""), row.names=FALSE)
 write.csv(O2dailywideavg, file=paste(outputdatapath, "O2dailywideavg.csv", sep = ""), row.names=FALSE)
-
-# daily long combined dataset
-
-# make ok to write to CSV
-fulldaily$Date2 <- as.character(fulldaily$Date2)
-
-# write to csv
 write.csv(fulldaily, file=paste(outputdatapath, "fulldaily.csv", sep = ""), row.names=FALSE)
+```
 
 
-##### FOR NOW, CHRISTINE IS JUST PASTING THESE INTO THE APPROPRIATE PLACE ON THE RUNNING EXCEL SHEET
-
-<<<<<<< HEAD
-
-
-# if you want to test the data in this sheet, graph via the below
-
-# ########################################################################
-# # SUMMARY STATS: O2, MOISTURE ACROSS TRANSECTS AT EACH DATE
-# 
-# # summarySE using plyr
-# source("C:/Users/jstar_000/Desktop/Data analysis/summarySE.r")
-# "DayCount", "Drought"
-# # summarySE O2
-#summarytab1tmp <- summarySE(data=fulldaily, measurevar="O2", groupvars=c("Date2", "TopoLocation"), na.rm=TRUE, renameallcols=TRUE) # this function is just producing warnings
-# # summarySE moisture
-#summarytab2tmp <- summarySE(data=fulldaily, measurevar="avgVWC", c("Date2", "TopoLocation"), na.rm=TRUE, renameallcols=TRUE)
-# 
-# 
-# ########################################################################
-# # EXPLORATORY FIGURES: TIME SERIES
-# 
-#topocolors <- c("navy","blue","dark green","green","yellow","orange","red")
-#topobreaks <- c("1","2","3","4","5","6","7")
-#topolabs <- c("Ridge","2","3","4","5","6","Valley")
-# 
-# # O2 by date (mean and se)
- #p1 <- ggplot(summarytab1, aes(x=Date, y=meanO2, color=TopoLocation)) + geom_point() + geom_errorbar(aes(ymin=meanO2-seO2, ymax=meanO2+seO2), alpha=0.5) + ylab("Soil O2 (Mean Fraction +/- Standard Error)") + theme_bw() + theme(axis.text.x=element_text(angle=90)) + scale_x_datetime(breaks = date_breaks("4 weeks"), labels = date_format("%d-%m-%y"))  + geom_line()
-# 
-# # moisture by date (mean and se)
-#p2 <- ggplot(summarytab2, aes(x=Date2, y=meanavgVWC, color=TopoLocation)) + geom_point() + geom_errorbar(aes(ymin=meanavgVWC-seavgVWC, ymax=meanavgVWC+seavgVWC), alpha=0.5) + ylab("Soil Moisture (Mean Fraction +/- Standard Error)") + theme_bw() + theme(axis.text.x=element_text(angle=90)) + scale_x_datetime(breaks = date_breaks("4 weeks"), labels = date_format("%d-%m-%y")) #+ geom_line()
-=======
+Graphs of all data
+```{r O2 graph, echo=FALSE}
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgO2pct,color=TopoLocation)) + 
   geom_point() +
-  scale_x_date(limits=as.Date(c("2017-01-01","2017-04-01"))) +
+  scale_x_date(limits=as.Date(c("2016-04-01","2016-10-01"))) +
   labs(x="Date",y="O2 concentration")
-ggsave("SurfaceO2.jpg",path=outputdatapath)
+```
 
+```{r Temp graph, echo=FALSE}
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgTemp,color=TopoLocation)) + 
   geom_point() +
   labs(x="Date",y="Soil Temp")
-ggsave("SurfaceTemp.jpg",path=outputdatapath)
+```
 
+```{r VWC graph, echo=FALSE}
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgVWC,color=TopoLocation)) + 
   geom_point() +
   labs(x="Date",y="Volumetric Water Content")
-ggsave("SurfaceVWC.jpg",path=outputdatapath)
->>>>>>> origin/master
+```
+

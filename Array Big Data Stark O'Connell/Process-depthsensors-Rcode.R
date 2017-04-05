@@ -15,9 +15,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
-sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/"
+sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-12-16/"
 calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
-outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/Depth Results/"
+outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-12-16/Depth Results/"
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -132,7 +132,7 @@ O2rows <- c(4:dataend)
 O2names <- c("TIMESTAMP",
              "Sensor01","Sensor02","Sensor03","Sensor04","Sensor05","Sensor06",
              "Sensor07","Sensor08","Sensor09","Sensor10","Sensor11","Sensor12",
-             "Sensor13","Sensor14","Sensor15","Sensor16","Sensor17","Sensor18") ## Numbers DO NOT match up with the temp/moisture numbers-need to rename
+             "Sensor13","Sensor14","Sensor15") ## Numbers DO NOT match up with the temp/moisture numbers-need to rename
 #O2names <- as.character(CR1000_oxygenEV[1,O2cols])
 
 # extract the data and give it useful col names
@@ -155,7 +155,7 @@ O2hourly$Date2 <- mdy(O2hourly$Date) # as date
 
 ## convert to long format
 
-O2hourlylong <- gather(O2hourly, SensorID, O2mV, Sensor01:Sensor18)
+O2hourlylong <- gather(O2hourly, SensorID, O2mV, Sensor01:Sensor15)
 O2hourlylong$SensorID <- as.character(O2hourlylong$SensorID)
 O2hourlylong$O2mV <- as.numeric(O2hourlylong$O2mV)
 
