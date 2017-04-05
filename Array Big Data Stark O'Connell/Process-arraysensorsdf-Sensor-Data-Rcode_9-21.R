@@ -37,6 +37,11 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/"
 calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
 outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/Surface results/"
+# for christine
+sensordatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
+calibrationdatapath = "~/Documents/GITHUB/cso040code_ArrayGHG/ArrayGHG-Data-Raw/Sensor-data-Ryan-practice/"
+outputdatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
+
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -382,7 +387,7 @@ write.csv(fulldaily, file=paste(outputdatapath, "fulldaily.csv", sep = ""), row.
 # # SUMMARY STATS: O2, MOISTURE ACROSS TRANSECTS AT EACH DATE
 # 
 # # summarySE using plyr
-source("C:/Users/jstar_000/Desktop/Data analysis/summarySE.r")
+# source("C:/Users/jstar_000/Desktop/Data analysis/summarySE.r")
 # "DayCount", "Drought"
 # # summarySE O2
 #summarytab1tmp <- summarySE(data=fulldaily, measurevar="O2", groupvars=c("Date2", "TopoLocation"), na.rm=TRUE, renameallcols=TRUE) # this function is just producing warnings
