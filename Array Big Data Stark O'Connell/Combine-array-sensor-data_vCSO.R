@@ -28,7 +28,7 @@ DataArchivepath <- "~/Desktop/Datalogger_downloads/DataArchive/"
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "~/Desktop/Datalogger_downloads/3-14-17/Surface results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/4-12-17/Surface results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
@@ -37,9 +37,8 @@ NewDatapath      <- "~/Desktop/Datalogger_downloads/3-14-17/Surface results/"
 #NewDatapath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
 
 # create master list of file names
-allfiles <- c("fulldaily","O2dailywideavg","O2hourly",
-              "tempdailywideavg","temphourly",
-              "vwcdailywideavg","vwchourly")
+allfiles <- c("vwchourly","temphourly","O2hourly","fulldaily",
+              "O2dailywideavg", "tempdailywideavg","vwcdailywideavg")
 
 
 # bring in old data
@@ -61,24 +60,12 @@ for(i in 1:7) {
 # Bind datasets
 CompleteFiles <- list()
 
-for(i in 1) {
+for(i in 1:7) {
   stopifnot(names(OldFiles[[i]])==names(NewFiles[[i]]))
   CompleteFiles[[i]] <- join(OldFiles[[i]],NewFiles[[i]],
-                             type="full",by=c("Date2","SensorID"))
+                             type="full")
   names(CompleteFiles)[i] <- paste("Complete",allfiles[i],sep="")
-}
-
-for(i in c(2,4,6)) {
-  stopifnot(names(OldFiles[[i]])==names(NewFiles[[i]]))
-  CompleteFiles[[i]] <- join(OldFiles[[i]],NewFiles[[i]],
-                             type="full",by="Date2")
-  names(CompleteFiles)[i] <- paste("Complete",allfiles[i],sep="")
-}
-
-for(i in c(3,5,7)) {
-  stopifnot(names(OldFiles[[i]])==names(NewFiles[[i]]))
-  CompleteFiles[[i]] <- join(OldFiles[[i]],NewFiles[[i]],type="full",by="TIMESTAMP2")
-  names(CompleteFiles)[i] <- paste("Complete",allfiles[i],sep="")
+  OldFiles[i] <- "done"
 }
 
 # Save all data
@@ -95,7 +82,7 @@ for(i in 1:7){
 library(ggplot2)
 library(lubridate)
 
-fulldaily <- CompleteFiles[[1]]
+fulldaily <- CompleteFiles[[4]]
 
 
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgO2pct,color=TopoLocation)) + 

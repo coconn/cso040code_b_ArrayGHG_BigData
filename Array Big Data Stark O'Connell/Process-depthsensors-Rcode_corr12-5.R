@@ -16,9 +16,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
-sensordatapath = "~/Desktop/Datalogger_downloads/3-14-17/"
+sensordatapath = "~/Desktop/Datalogger_downloads/4-12-17/"
 calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
-outputdatapath = "~/Desktop/Datalogger_downloads/3-14-17/Depth results/"
+outputdatapath = "~/Desktop/Datalogger_downloads/4-12-17/Depth results/"
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -299,21 +299,21 @@ figuredata <- fulldaily[!is.na(fulldaily$TopoLocation),]
 
 ggplot(figuredata,aes(x=as.Date(Date2),y=avgO2pct,color=factor(Depth))) + 
   geom_point() +
-  scale_x_date(limits=as.Date(c("2017-01-01","2017-04-01"))) +
+  scale_x_date(limits=as.Date(c("2017-01-01","2017-07-01"))) +
   labs(x="Date",y="O2 concentration") +
   facet_grid(TopoLocation~.)
 ggsave("DepthO2.jpg",path=outputdatapath)
 
 ggplot(figuredata,aes(x=as.Date(Date2),y=avgTemp,color=factor(Depth))) +
   geom_point() +
-  scale_x_date(limits=as.Date(c("2017-01-01","2017-04-01"))) +
+  scale_x_date(limits=as.Date(c("2017-01-01","2017-07-01"))) +
   labs(x="Date",y="Soil Temp") +
   facet_grid(TopoLocation~.)
 ggsave("DepthTemp.jpg",path=outputdatapath)
 
 ggplot(figuredata,aes(x=as.Date(Date2),y=avgVWC,color=factor(Depth))) + 
   geom_point() +
-  scale_x_date(limits=as.Date(c("2017-01-01","2017-04-01"))) +
+  scale_x_date(limits=as.Date(c("2017-01-01","2017-07-01"))) +
   labs(x="Date",y="Volumetric Water Content") +
   facet_grid(TopoLocation~.)
 ggsave("DepthVWC.jpg",path=outputdatapath)

@@ -28,7 +28,7 @@ DataArchivepath <- "~/Desktop/Datalogger_downloads/DepthDataArchive/"
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "~/Desktop/Datalogger_downloads/3-14-17/Depth results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/4-12-17/Depth results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
@@ -83,15 +83,14 @@ library(ggplot2)
 library(lubridate)
 
 fulldaily <- CompleteFiles[[1]]
-fulldaily$realDate <- parse_date_time(fulldaily$Date2,orders="mdy")
+fulldaily$realDate <- parse_date_time(fulldaily$Date2,orders="ymd")
 
 ggplot(fulldaily,aes(x=realDate,y=avgO2pct,color=as.factor(Depth))) + 
   geom_point() +
   facet_grid(TopoLocation~.) +
-  scale_y_continuous(limits=c(-2,22)) +
   labs(x="Date",y="O2 concentration")
 ggsave("Depth O2.pdf", path = DataArchivepath)
-
+#  scale_y_continuous(limits=c(-2,22)) +
 
 ggplot(fulldaily,aes(x=realDate,y=avgTemp,color=as.factor(Depth))) + 
   geom_point() +
