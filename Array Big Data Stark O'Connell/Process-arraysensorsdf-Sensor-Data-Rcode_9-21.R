@@ -26,15 +26,37 @@ library(chron)
 library(lubridate)
 library(lattice)
 library(reshape2)
+<<<<<<< HEAD
+options(java.parameters = "-Xmx5000m")
+library(xlsx)
+=======
+>>>>>>> origin/master
 
 # define standard error function
 ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
+<<<<<<< HEAD
 sensordatapath = "~/Desktop/Datalogger_downloads/4-12-17/"
 calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
 outputdatapath = "~/Desktop/Datalogger_downloads/4-12-17/Surface results/"
+=======
+<<<<<<< HEAD
+sensordatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/"
+calibrationdatapath = "C:/Users/jstar_000/Desktop/PC400 data/"
+outputdatapath = "C:/Users/jstar_000/Desktop/PC400 data/10-6-16/Surface results/"
+# for christine
+sensordatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
+calibrationdatapath = "~/Documents/GITHUB/cso040code_ArrayGHG/ArrayGHG-Data-Raw/Sensor-data-Ryan-practice/"
+outputdatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
+
+=======
+sensordatapath = "~/Desktop/Datalogger_downloads/3-14-17/"
+calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
+outputdatapath = "~/Desktop/Datalogger_downloads/3-14-17/Surface results/"
+>>>>>>> origin/master
+>>>>>>> origin/master
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -130,12 +152,20 @@ vwchourlylong$VWC <- as.numeric(vwchourlylong$VWC)
 ## get daily mean, sd, max, min
 vwcdailylong <- ddply(vwchourlylong,.(Date2, SensorID),
              summarize,
+<<<<<<< HEAD
+             avgVWC=mean(VWC, na.rm = TRUE),
+             sdVWC=sd(VWC, na.rm = TRUE),
+             seVWC=ste(VWC),
+             maxVWC=max(VWC, na.rm = TRUE),
+             minVWC=min(VWC, na.rm = TRUE)) # na.rm=T already in the function definition for ste()
+=======
              avgVWC=mean(VWC, strna.rm = TRUE),
              sdVWC=sd(VWC, na.rm = TRUE),
              seVWC=sqrt(var(VWC,na.rm=TRUE)/length(na.omit(VWC))),
              maxVWC=max(VWC, na.rm = TRUE),
              minVWC=min(VWC, na.rm = TRUE),
              .progress="text") # na.rm=T already in the function definition for ste()
+>>>>>>> origin/master
 
 
 ########################################################################
@@ -207,8 +237,12 @@ tempdailylong <- ddply(temphourlylong,.(Date2, SensorID),
                       sdTemp=sd(Temp, na.rm = TRUE),
                       seTemp=ste(Temp),
                       smaxTemp=max(Temp, na.rm = TRUE),
+<<<<<<< HEAD
+                      minTemp=min(Temp, na.rm = TRUE)) # na.rm=T already in the function definition for ste()
+=======
                       minTemp=min(Temp, na.rm = TRUE),
                       .progress="text") # na.rm=T already in the function definition for ste()
+>>>>>>> origin/master
 
 
 ########################################################################
@@ -271,8 +305,12 @@ O2dailylong <- ddply(O2hourlylong,.(Date2, SensorID),
                        sdO2pct=sd(O2pct, na.rm = TRUE),
                        seO2pct=ste(O2pct),
                        smaxO2pct=max(O2pct, na.rm = TRUE),
+<<<<<<< HEAD
+                       minO2pct=min(O2pct, na.rm = TRUE)) # na.rm=T already in the function definition for ste()
+=======
                        minO2pct=min(O2pct, na.rm = TRUE),
                        .progress="text") # na.rm=T already in the function definition for ste()
+>>>>>>> origin/master
 
 
 ##### Q for Ryan... why are the daily averages off between the hourly tab and the daily summary tab?
@@ -375,6 +413,36 @@ write.csv(fulldaily, file=paste(outputdatapath, "fulldaily.csv", sep = ""), row.
 
 ##### FOR NOW, CHRISTINE IS JUST PASTING THESE INTO THE APPROPRIATE PLACE ON THE RUNNING EXCEL SHEET
 
+<<<<<<< HEAD
+
+
+# if you want to test the data in this sheet, graph via the below
+
+# ########################################################################
+# # SUMMARY STATS: O2, MOISTURE ACROSS TRANSECTS AT EACH DATE
+# 
+# # summarySE using plyr
+# source("C:/Users/jstar_000/Desktop/Data analysis/summarySE.r")
+# "DayCount", "Drought"
+# # summarySE O2
+#summarytab1tmp <- summarySE(data=fulldaily, measurevar="O2", groupvars=c("Date2", "TopoLocation"), na.rm=TRUE, renameallcols=TRUE) # this function is just producing warnings
+# # summarySE moisture
+#summarytab2tmp <- summarySE(data=fulldaily, measurevar="avgVWC", c("Date2", "TopoLocation"), na.rm=TRUE, renameallcols=TRUE)
+# 
+# 
+# ########################################################################
+# # EXPLORATORY FIGURES: TIME SERIES
+# 
+#topocolors <- c("navy","blue","dark green","green","yellow","orange","red")
+#topobreaks <- c("1","2","3","4","5","6","7")
+#topolabs <- c("Ridge","2","3","4","5","6","Valley")
+# 
+# # O2 by date (mean and se)
+ #p1 <- ggplot(summarytab1, aes(x=Date, y=meanO2, color=TopoLocation)) + geom_point() + geom_errorbar(aes(ymin=meanO2-seO2, ymax=meanO2+seO2), alpha=0.5) + ylab("Soil O2 (Mean Fraction +/- Standard Error)") + theme_bw() + theme(axis.text.x=element_text(angle=90)) + scale_x_datetime(breaks = date_breaks("4 weeks"), labels = date_format("%d-%m-%y"))  + geom_line()
+# 
+# # moisture by date (mean and se)
+#p2 <- ggplot(summarytab2, aes(x=Date2, y=meanavgVWC, color=TopoLocation)) + geom_point() + geom_errorbar(aes(ymin=meanavgVWC-seavgVWC, ymax=meanavgVWC+seavgVWC), alpha=0.5) + ylab("Soil Moisture (Mean Fraction +/- Standard Error)") + theme_bw() + theme(axis.text.x=element_text(angle=90)) + scale_x_datetime(breaks = date_breaks("4 weeks"), labels = date_format("%d-%m-%y")) #+ geom_line()
+=======
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgO2pct,color=TopoLocation)) + 
   geom_point() +
   scale_x_date(limits=as.Date(c("2017-01-01","2017-07-01"))) +
@@ -390,3 +458,4 @@ ggplot(fulldaily,aes(x=as.Date(Date2),y=avgVWC,color=TopoLocation)) +
   geom_point() +
   labs(x="Date",y="Volumetric Water Content")
 ggsave("SurfaceVWC.jpg",path=outputdatapath)
+>>>>>>> origin/master
