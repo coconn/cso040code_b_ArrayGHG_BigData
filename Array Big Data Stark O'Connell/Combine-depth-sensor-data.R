@@ -28,7 +28,7 @@ DataArchivepath <- "~/Desktop/Datalogger_downloads/DepthDataArchive/"
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "~/Desktop/Datalogger_downloads/4-12-17/Depth results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/4-25-17/Depth results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
