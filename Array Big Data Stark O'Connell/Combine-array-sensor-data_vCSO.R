@@ -5,7 +5,7 @@
 # Combines data from most recent download date ("NewDatapath")
 #  with old array data ("DataArchivepath")
 #  and saves complete dataset in the DataArchive
-#  for seven files:
+#  for ten files:
 #                   fulldaily.csv
 #                   O2dailywideavg.csv
 #                   O2hourly.csv
@@ -13,6 +13,9 @@
 #                   temphourly.csv
 #                   vwcdailywideavg.csv
 #                   vwchourly.csv
+#                   redox15mins.csv
+#                   redoxhourly.csv
+#                   redoxdailywideavg.csv
 
 ######################################################################
 
@@ -28,7 +31,7 @@ DataArchivepath <- "~/Desktop/Datalogger_downloads/DataArchive/"
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "~/Desktop/Datalogger_downloads/4-25-17/Surface results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/5-9-17/Surface results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
@@ -38,12 +41,13 @@ NewDatapath      <- "~/Desktop/Datalogger_downloads/4-25-17/Surface results/"
 
 # create master list of file names
 allfiles <- c("vwchourly","temphourly","O2hourly","fulldaily",
-              "O2dailywideavg", "tempdailywideavg","vwcdailywideavg")
+              "O2dailywideavg", "tempdailywideavg","vwcdailywideavg",
+              "redox15mins","redoxhourly","redoxdailywideavg")
 
 
 # bring in old data
 OldFiles <- list()
-for(i in 1:7) {
+for(i in 1:10) {
 OldFiles[[i]] <- as.data.frame(read.csv(paste(DataArchivepath,allfiles[i],".csv",sep=""), stringsAsFactors=FALSE))
 names(OldFiles)[i] <- paste("Old",allfiles[i],sep="")
 }
@@ -52,7 +56,7 @@ names(OldFiles)[i] <- paste("Old",allfiles[i],sep="")
 
 # bring in new data
 NewFiles <- list()
-for(i in 1:7) {
+for(i in 1:10) {
   NewFiles[[i]] <- as.data.frame(read.csv(paste(NewDatapath,allfiles[i],".csv",sep=""), stringsAsFactors=FALSE))
   names(NewFiles)[i] <- paste("New",allfiles[i],sep="")
 }
@@ -60,21 +64,13 @@ for(i in 1:7) {
 # Bind datasets
 CompleteFiles <- list()
 
-for(i in 1:7) {
+for(i in 1:10) {
   stopifnot(names(OldFiles[[i]])==names(NewFiles[[i]]))
   CompleteFiles[[i]] <- join(OldFiles[[i]],NewFiles[[i]],
                              type="full")
   names(CompleteFiles)[i] <- paste("Complete",allfiles[i],sep="")
   OldFiles[i] <- "done"
 }
-
-# Save all data
-for(i in 1:7){
-  write.csv(CompleteFiles[[i]],
-           file=paste(DataArchivepath,allfiles[i],".csv",sep=""),
-           row.names=FALSE)
-}
-
 
 
 # Figures for sanity check
@@ -100,3 +96,19 @@ ggplot(fulldaily,aes(x=as.Date(Date2),y=avgVWC,color=TopoLocation)) +
   geom_point() +
   labs(x="Date",y="Volumetric Water Content")
 ggsave("VWC.pdf", path = DataArchivepath)
+
+
+ggplot(CompleteFiles$Completeredox15mins,
+       aes(x=ymd_hms(TIMESTAMP2),y=SEVolt,color=TopoLocation)) +
+  geom_point() +
+  labs(x="Date",y="SEVolt")
+ggsave("Redox.pdf",path = DataArchivepath)
+
+
+# Save all data
+for(i in 1:10){
+  write.csv(CompleteFiles[[i]],
+            file=paste(DataArchivepath,allfiles[i],".csv",sep=""),
+            row.names=FALSE)
+}
+

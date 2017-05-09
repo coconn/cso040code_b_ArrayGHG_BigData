@@ -33,9 +33,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 # where to save outputs
 
 # for PR data computer
-sensordatapath = "~/Desktop/Datalogger_downloads/4-25-17/"
+sensordatapath = "~/Desktop/Datalogger_downloads/5-9-17/"
 calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
-outputdatapath = "~/Desktop/Datalogger_downloads/4-25-17/Surface results/"
+outputdatapath = "~/Desktop/Datalogger_downloads/5-9-17/Surface results/"
 
 # for christine
 #sensordatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
@@ -458,16 +458,16 @@ temphourly$TIMESTAMP2 <- as.character(temphourly$TIMESTAMP2)
 temphourly$Date2 <- as.character(temphourly$Date2)
 O2hourlylong$TIMESTAMP2 <- as.character(O2hourlylong$TIMESTAMP2)
 O2hourlylong$Date2 <- as.character(O2hourlylong$Date2)
-redox15mins_unique$TIMESTAMP2 <- as.character(redox15mins_unique$TIMESTAMP2)
-redox15mins_unique$Date2 <- as.character(redox15mins_unique$Date2)
-redoxhourlywideavg$TIMESTAMP <- as.character(redoxhourlywideavg$TIMESTAMP)
+redox15minslongTIMESTAMP2 <- as.character(redox15mins_unique$TIMESTAMP2)
+redox15minslong$Date2 <- as.character(redox15mins_unique$Date2)
+redoxhourlylong$TIMESTAMP <- as.character(redoxhourlywideavg$TIMESTAMP)
 
 # write to csv
 write.csv(vwchourly, file=paste(outputdatapath, "vwchourly.csv", sep = ""), row.names=FALSE)
 write.csv(temphourly, file=paste(outputdatapath, "temphourly.csv", sep = ""), row.names=FALSE)
 write.csv(O2hourlylong, file=paste(outputdatapath, "O2hourly.csv", sep = ""), row.names=FALSE)
-write.csv(redox15mins_unique, file=paste(outputdatapath, "redox15mins.csv", sep= ""), row.names=FALSE)
-write.csv(redoxhourlywideavg, file=paste(outputdatapath, "redoxhourly.csv", sep=""), row.names=FALSE)
+write.csv(redox15minslong, file=paste(outputdatapath, "redox15mins.csv", sep= ""), row.names=FALSE)
+write.csv(redoxhourlylong, file=paste(outputdatapath, "redoxhourly.csv", sep=""), row.names=FALSE)
 
 # daily wide for each
 

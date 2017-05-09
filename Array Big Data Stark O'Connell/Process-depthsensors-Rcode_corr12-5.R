@@ -16,9 +16,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 # where to save outputs
 
-sensordatapath = "~/Desktop/Datalogger_downloads/4-25-17/"
+sensordatapath = "~/Desktop/Datalogger_downloads/5-9-17/"
 calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
-outputdatapath = "~/Desktop/Datalogger_downloads/4-25-17/Depth results/"
+outputdatapath = "~/Desktop/Datalogger_downloads/5-9-17/Depth results/"
 
 ########################################################################
 # BRING IN NEW DATA SHEETS
@@ -137,7 +137,7 @@ tempdailylong <- ddply(temphourlylongcor,.(Date2, SensorID,
 
 
 # where is the O2 data?
-O2cols <- c(1,331:345)
+O2cols <- c(1,331:346,272:273)
 dataend <- dim(CR1000_oxygenEV)[1]
 O2rows <- c(4:dataend)
 
@@ -145,7 +145,15 @@ O2rows <- c(4:dataend)
 O2names <- c("TIMESTAMP",
              "Ox01","Ox02","Ox03","Ox04","Ox05","Ox06",
              "Ox07","Ox08","Ox09","Ox10","Ox11","Ox12",
-             "Ox13","Ox14","Ox15") 
+             "Ox13","Ox14","Ox15","Ox16","Ox17","Ox18") 
+
+# New sensors wired on May4 2017 and installed May8 2017:
+    #Ox16= slope15
+    #Ox17= slope30
+    #Ox18= slope45
+# Also corrected wiring of Ox12 (ridge 90cm) on May4 2017
+# Also wired in new sensors for Ox 10 (valley 75) and Ox05 (ridge 30) on May4 2017;
+    #installed in ground on May8 2017
 
 # extract the data and give it useful col names
 O2hourly <- CR1000_oxygenEV[O2rows, O2cols]
@@ -167,7 +175,7 @@ O2hourly$Date2 <- mdy(O2hourly$Date) # as date
 
 ## convert to long format
 
-O2hourlylong <- gather(O2hourly, SensorID, O2mV, Ox01:Ox15)
+O2hourlylong <- gather(O2hourly, SensorID, O2mV, Ox01:Ox18)
 O2hourlylong$SensorID <- as.character(O2hourlylong$SensorID)
 O2hourlylong$O2mV <- as.numeric(O2hourlylong$O2mV)
 

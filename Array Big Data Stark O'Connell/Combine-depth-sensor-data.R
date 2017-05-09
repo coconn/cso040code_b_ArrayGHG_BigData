@@ -28,7 +28,7 @@ DataArchivepath <- "~/Desktop/Datalogger_downloads/DepthDataArchive/"
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "~/Desktop/Datalogger_downloads/4-25-17/Depth results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/5-9-17/Depth results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
@@ -68,14 +68,6 @@ for(i in 1:7) {
 }
 
 
-# Save all data
-for(i in 1:7){
-  write.csv(CompleteFiles[[i]],
-            file=paste(DataArchivepath,allfiles[i],".csv",sep=""),
-            row.names=FALSE)
-}
-
-
 
 # Figures for sanity check
 
@@ -103,3 +95,11 @@ ggplot(fulldaily,aes(x=realDate,y=avgVWC,color=as.factor(Depth))) +
   facet_grid(TopoLocation~.) +
   labs(x="Date",y="Volumetric Water Content")
 ggsave("Depth VWC.pdf", path = DataArchivepath)
+
+# Save all data
+for(i in 1:7){
+  write.csv(CompleteFiles[[i]],
+            file=paste(DataArchivepath,allfiles[i],".csv",sep=""),
+            row.names=FALSE)
+}
+
