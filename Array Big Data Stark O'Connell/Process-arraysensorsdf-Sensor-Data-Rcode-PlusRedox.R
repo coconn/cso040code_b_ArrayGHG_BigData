@@ -33,9 +33,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 # where to save outputs
 
 # for PR data computer
-sensordatapath = "~/Desktop/Datalogger_downloads/5-9-17/"
+sensordatapath = "~/Desktop/Datalogger_downloads/5-24-17/"
 calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
-outputdatapath = "~/Desktop/Datalogger_downloads/5-9-17/Surface results/"
+outputdatapath = "~/Desktop/Datalogger_downloads/5-24-17/Surface results/"
 
 # for christine
 #sensordatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"

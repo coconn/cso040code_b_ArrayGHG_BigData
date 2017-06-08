@@ -28,7 +28,7 @@ DataArchivepath <- "~/Desktop/Datalogger_downloads/DepthDataArchive/"
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "~/Desktop/Datalogger_downloads/5-9-17/Depth results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/5-24-17/Depth results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
@@ -63,7 +63,7 @@ CompleteFiles <- list()
 
 for(i in 1:7) {
   stopifnot(names(OldFiles[[i]])==names(NewFiles[[i]]))
-  CompleteFiles[[i]] <- join(OldFiles[[i]],NewFiles[[i]],type="full")
+  CompleteFiles[[i]] <- unique(join(OldFiles[[i]],NewFiles[[i]],type="full"))
   names(CompleteFiles)[i] <- paste("Complete",allfiles[i],sep="")
 }
 
@@ -80,8 +80,9 @@ fulldaily$realDate <- parse_date_time(fulldaily$Date2,orders="ymd")
 ggplot(fulldaily,aes(x=realDate,y=avgO2pct,color=as.factor(Depth))) + 
   geom_point() +
   facet_grid(TopoLocation~.) +
-  labs(x="Date",y="O2 concentration")
-ggsave("Depth O2.pdf", path = DataArchivepath)
+  labs(x="Date",y="O2 concentration") +
+  scale_y_continuous(limits=c(-5,25))
+ggsave("Depth O2zoomed.pdf", path = DataArchivepath)
 #  scale_y_continuous(limits=c(-2,22)) +
 
 ggplot(fulldaily,aes(x=realDate,y=avgTemp,color=as.factor(Depth))) + 

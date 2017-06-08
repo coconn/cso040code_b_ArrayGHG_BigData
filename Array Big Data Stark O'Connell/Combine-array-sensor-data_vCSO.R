@@ -31,7 +31,7 @@ DataArchivepath <- "~/Desktop/Datalogger_downloads/DataArchive/"
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "~/Desktop/Datalogger_downloads/5-9-17/Surface results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/6-6-17/Surface results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
@@ -66,8 +66,8 @@ CompleteFiles <- list()
 
 for(i in 1:10) {
   stopifnot(names(OldFiles[[i]])==names(NewFiles[[i]]))
-  CompleteFiles[[i]] <- join(OldFiles[[i]],NewFiles[[i]],
-                             type="full")
+  CompleteFiles[[i]] <- unique(join(OldFiles[[i]],NewFiles[[i]],
+                             type="full"))
   names(CompleteFiles)[i] <- paste("Complete",allfiles[i],sep="")
   OldFiles[i] <- "done"
 }
@@ -81,27 +81,33 @@ library(lubridate)
 fulldaily <- CompleteFiles[[4]]
 
 
-ggplot(fulldaily,aes(x=as.Date(Date2),y=avgO2pct,color=TopoLocation)) + 
+ggplot(fulldaily,aes(x=mdy(Date2),y=avgO2pct,color=TopoLocation)) + 
   geom_point() +
-  labs(x="Date",y="O2 concentration")
+  labs(x="Date",y="O2 concentration") +
+  scale_x_date(date_breaks="6 months", date_minor_breaks="1 month",
+               date_labels="%b%y")
 ggsave("O2.pdf", path = DataArchivepath)
 
 
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgTemp,color=TopoLocation)) + 
   geom_point() +
-  labs(x="Date",y="Soil Temp")
+  labs(x="Date",y="Soil Temp")+
+  scale_x_date(date_breaks="6 months", date_minor_breaks="1 month",
+               date_labels="%b%y")
 ggsave("Soil Temp.pdf", path = DataArchivepath)
 
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgVWC,color=TopoLocation)) + 
   geom_point() +
-  labs(x="Date",y="Volumetric Water Content")
+  labs(x="Date",y="Volumetric Water Content") +
+  scale_x_date(date_breaks="6 months", date_minor_breaks="1 month",
+               date_labels="%b%y")
 ggsave("VWC.pdf", path = DataArchivepath)
 
 
 ggplot(CompleteFiles$Completeredox15mins,
        aes(x=ymd_hms(TIMESTAMP2),y=SEVolt,color=TopoLocation)) +
   geom_point() +
-  labs(x="Date",y="SEVolt")
+  labs(x="Date",y="SEVolt") +
 ggsave("Redox.pdf",path = DataArchivepath)
 
 
