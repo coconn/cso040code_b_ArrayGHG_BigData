@@ -31,7 +31,7 @@ DataArchivepath <- "~/Desktop/Datalogger_downloads/DataArchive/"
 # christine version; uncomment when CSO doing things
 #DataArchivepath <- "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceDataArchive/"
 
-NewDatapath      <- "~/Desktop/Datalogger_downloads/6-6-17/Surface results/" 
+NewDatapath      <- "~/Desktop/Datalogger_downloads/7-3-17/Surface results/" 
 # this should change each time data is dowloaded
 
 # christine version; uncomment when CSO doing things
@@ -59,6 +59,7 @@ NewFiles <- list()
 for(i in 1:10) {
   NewFiles[[i]] <- as.data.frame(read.csv(paste(NewDatapath,allfiles[i],".csv",sep=""), stringsAsFactors=FALSE))
   names(NewFiles)[i] <- paste("New",allfiles[i],sep="")
+  if("Date2" %in% colnames(NewFiles[[i]])) {NewFiles[[i]]$Date2 <- format(as.Date(NewFiles[[i]]$Date2),'%m/%d/%y')}
 }
 
 # Bind datasets
@@ -89,14 +90,14 @@ ggplot(fulldaily,aes(x=mdy(Date2),y=avgO2pct,color=TopoLocation)) +
 ggsave("O2.pdf", path = DataArchivepath)
 
 
-ggplot(fulldaily,aes(x=as.Date(Date2),y=avgTemp,color=TopoLocation)) + 
+ggplot(fulldaily,aes(x=mdy(Date2),y=avgTemp,color=TopoLocation)) + 
   geom_point() +
   labs(x="Date",y="Soil Temp")+
   scale_x_date(date_breaks="6 months", date_minor_breaks="1 month",
                date_labels="%b%y")
 ggsave("Soil Temp.pdf", path = DataArchivepath)
 
-ggplot(fulldaily,aes(x=as.Date(Date2),y=avgVWC,color=TopoLocation)) + 
+ggplot(fulldaily,aes(x=mdy(Date2),y=avgVWC,color=TopoLocation)) + 
   geom_point() +
   labs(x="Date",y="Volumetric Water Content") +
   scale_x_date(date_breaks="6 months", date_minor_breaks="1 month",
