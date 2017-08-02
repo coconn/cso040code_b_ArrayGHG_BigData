@@ -33,9 +33,9 @@ ste <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 # where to save outputs
 
 # for PR data computer
-sensordatapath = "~/Desktop/Datalogger_downloads/7-3-17/"
+sensordatapath = "~/Desktop/Datalogger_downloads/7-18-17/"
 calibrationdatapath = "~/Desktop/Datalogger_downloads/Calibration files/"
-outputdatapath = "~/Desktop/Datalogger_downloads/7-3-17/Surface results/"
+outputdatapath = "~/Desktop/Datalogger_downloads/7-18-17/Surface results/"
 
 # for christine
 #sensordatapath = "~/Documents/GITHUB/cso044code_HotSpotsHotMoments/HotSpotsHotMomentsAnalysis/HotSpotsHotMoments-Data-Raw/Sensors/SurfaceOutOfDate/OldestCSOHas/renamedtomatchcode/"
@@ -533,7 +533,7 @@ write.csv(fulldaily, file=paste(outputdatapath, "fulldaily.csv", sep = ""), row.
 
 ggplot(fulldaily,aes(x=as.Date(Date2),y=avgO2pct,color=TopoLocation)) + 
   geom_point() +
-  scale_x_date(limits=as.Date(c("2017-01-01","2017-07-01"))) +
+  scale_x_date(limits=as.Date(c("2017-01-01","2017-09-01"))) +
   labs(x="Date",y="O2 concentration")
 ggsave("SurfaceO2.jpg",path=outputdatapath)
 
